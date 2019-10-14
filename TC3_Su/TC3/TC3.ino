@@ -50,6 +50,11 @@ void setup(){
   beep();
   
   sw_ok_press();
+  beep();
+  delay(500);
+  pid_T(0.5,1,20,250);
+  pid_T(0.5,1,40,1000);
+  
   
 }
 
@@ -57,31 +62,31 @@ void loop() {
   /*Serial.print("  readline");
     Serial.println(readline());
     delay(1);*/
-  /*
-    glcd(0, 0, "%d   ", analog(0));
-    glcd(1, 0, "%d   ", analog(1));
-    glcd(2, 0, "%d   ", analog(2));
-    glcd(3, 0, "%d   ", analog(3));
-    glcd(4, 0, "%d   ", analog(4));
-    glcd(5, 0, "%d   ", analog(5));
-  */
+  
+    glcd(6, 0, "%d   ", analog(0));
+    glcd(7, 0, "%d   ", analog(1));
+    glcd(8, 0, "%d   ", analog(2));
+    glcd(9, 0, "%d   ", analog(3));
+    glcd(10, 0, "%d   ", analog(4));
+    glcd(11, 0, "%d   ", analog(5));
+  
   ao();
 }
 
 void Left(){
-  fd(30); delay(60);  ao(); sl(50); delay(50);  ao();
-  while (analog(3) > ref[3]);
+  fd(30); delay(60);  ao(); sl(50); delay(50); sl(30); 
+  while (analog(2) > ref[2]);
 }
 
 void Right(){
-  fd(30); delay(60);  ao(); sr(50); delay(50);  ao();
-  while (analog(2) > ref[2]);
+  fd(30); delay(60);  ao(); sr(50); delay(50); sr(30);
+  while (analog(3) > ref[3]);
 }
 
 void Return(){
   //หมุนเส้นตรงยาวไม่เจอเส้นตัดระหว่างหมุน
-  fd(30); delay(60);  ao(); sl(50); delay(50);  ao();
-  while (analog(3) > ref[3]);
+  fd(30); delay(60);  ao(); sl(50); delay(50); sl(30);
+  while (analog(2) > ref[2]);
   pid_T(1 , 1 , 30, 100);   //เอาตัวที่เสถียรสุด  
 }
 
@@ -125,14 +130,14 @@ void squarest(int num) {
         fd(30); delay(100);
         ao(); num -= 1; x = 0;
         sl(50); delay(50);  ao();
-        while (analog(3) > ref[3])  sl(30);
+        while (analog(2) > ref[2])  sl(30);
         ao();
       }
       else if ( analog(5) < 500 ) {  //ขวา
         fd(30); delay(100);
         ao(); num -= 1; x = 0;
         sr(50); delay(50);  ao();
-        while (analog(2) > ref[2])  sr(30);
+        while (analog(3) > ref[3])  sr(30);
         ao();
 
       }
@@ -150,28 +155,6 @@ void squarest(int num) {
       }
       x += 3;
       if (x > 20) x = 20;
-    }
-  }
-}
-
-void square(int num){
-  while (num--)
-  {
-    while (1)
-    {
-      pid(0.6, 3, 35);
-      if (analog(0) < 400)
-      {
-        fd(30); delay(60);  ao(); sl(50); delay(50);  ao();
-        while (analog(3) > ref[3]);
-        ao();break;
-      }
-      if (analog(5) < 400)
-      {
-        fd(30); delay(60);  ao(); sr(50); delay(50);  ao();
-        while (analog(2) > ref[2]);
-        ao();break;
-      }
     }
   }
 }
@@ -204,4 +187,3 @@ void gotokeep(float Kp , float Kd , int speed_max){
 void gotoput(){
   //servo
 }
-
