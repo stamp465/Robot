@@ -74,19 +74,29 @@ void loop() {
 }
 
 void Left(){
-  fd(30); delay(60);  ao(); sl(50); delay(50); sl(30); 
-  while (analog(2) > ref[2]);
+  fd(30); delay(60);  ao();   //ถ้าเลี้ยวไม่สวยเอาออก
+  sl(50); delay(50); 
+  while (analog(2) > ref[2]) {
+    sl(30);
+  } ao(); delay(50);    //ถ้าเลี้ยวไมไ่ด้ เพิ่ม delay
 }
 
-void Right(){
-  fd(30); delay(60);  ao(); sr(50); delay(50); sr(30);
-  while (analog(3) > ref[3]);
+void Right(){ 
+  fd(30); delay(60);  ao();   //ถ้าเลี้ยวไม่สวยเอาออก
+  sr(50); delay(50); 
+  while (analog(3) > ref[3]){
+    sr(30);
+  } ao(); delay(50);    //ถ้าเลี้ยวไมไ่ด้ เพิ่ม delay
 }
 
 void Return(){
   //หมุนเส้นตรงยาวไม่เจอเส้นตัดระหว่างหมุน
-  fd(30); delay(60);  ao(); sl(50); delay(50); sl(30);
-  while (analog(2) > ref[2]);
+  fd(30); delay(60);  ao(); 
+  sl(50); delay(50); 
+  while (analog(2) > ref[2]) {
+    sl(30);
+  } ao(); delay(50);  
+  
   pid_T(1 , 1 , 30, 100);   //เอาตัวที่เสถียรสุด  
 }
 
@@ -184,6 +194,14 @@ void gotokeep(float Kp , float Kd , int speed_max){
   
 }
 
-void gotoput(){
+void keep(){
   //servo
+  servo(2,กาง);
+  servo(1,ลง);
+  servo(2,หุบ);
+}
+
+void put(){
+  servo(2,กาง);
+  servo(1,ขึ้น);
 }
