@@ -89,17 +89,6 @@ void Right(){
   } ao(); delay(50);    //ถ้าเลี้ยวไมไ่ด้ เพิ่ม delay
 }
 
-void Return(){
-  //หมุนเส้นตรงยาวไม่เจอเส้นตัดระหว่างหมุน
-  fd(30); delay(60);  ao(); 
-  sl(50); delay(50); 
-  while (analog(2) > ref[2]) {
-    sl(30);
-  } ao(); delay(50);  
-  
-  pid_T(1 , 1 , 30, 100);   //เอาตัวที่เสถียรสุด  
-}
-
 void pid(float Kp , float Kd , int speed_max){
   present_position = readline() / ((numSensor - 1) * 10) ;
   setpoint = 50.0;
@@ -120,54 +109,6 @@ void pid_T(float Kp , float Kd , int speed_max, long mil){
   while (a + mil > millis())pid(Kp , Kd , speed_max);
 }
 
-void pid_B(float Kp , float Kd , int speed_max){
-  while (1)
-  {
-    pid(Kp, Kd, speed_max);
-    if ((analog(4) < ref[4] && analog(3) < ref[3]) || (analog(1) < ref[1] && analog(2) < ref[2]))
-    {
-      break;
-    }
-  }
-}
-
-void squarest(int num) {
-  int x = 0;
-  while (1) {
-    if (num == 0)  break;
-    else {
-      if ( analog(0) < 500 ) {   //ซ้าย
-        fd(30); delay(100);
-        ao(); num -= 1; x = 0;
-        sl(50); delay(50);  ao();
-        while (analog(2) > ref[2])  sl(30);
-        ao();
-      }
-      else if ( analog(5) < 500 ) {  //ขวา
-        fd(30); delay(100);
-        ao(); num -= 1; x = 0;
-        sr(50); delay(50);  ao();
-        while (analog(3) > ref[3])  sr(30);
-        ao();
-
-      }
-      else if (analog(1) > ref[1] && analog(4) < ref[4]) {
-        motor(1, 40);
-        motor(2, 10);
-      }
-      else if (analog(1) < ref[1] && analog(4) > ref[4]) {
-        motor(1, 10);
-        motor(2, 40);
-      }
-      else {
-        motor(1, 20 + x);
-        motor(2, 20 + x);
-      }
-      x += 3;
-      if (x > 20) x = 20;
-    }
-  }
-}
 
 void pid_BB(float Kp , float Kd , int speed_max){
   while (analog(5) > 300 && analog(0) > 300)pid(Kp, Kd, speed_max);
