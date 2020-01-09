@@ -117,13 +117,6 @@ void pid_BB(float Kp , float Kd , int speed_max){
   //pid_T(Kp,Kd,speed_max,100);
 }
 
-void pid_BB2(float Kp , float Kd , int speed_max){
-  while (analog(5) > 300 || analog(0) > 300)pid(Kp, Kd, speed_max);
-  while (analog(5) < 300 && analog(0) < 300)pid(Kp, Kd, speed_max);
-  ao();
-  //pid_T(Kp,Kd,speed_max,100);
-}
-
 void gotokeep(float Kp , float Kd , int speed_max){
   while (1)
   {
@@ -133,16 +126,4 @@ void gotokeep(float Kp , float Kd , int speed_max){
     }
   }
   
-}
-
-void keep(){
-  //servo
-  servo(2,กาง);
-  servo(1,ลง);
-  servo(2,หุบ);
-}
-
-void put(){
-  servo(2,กาง);
-  servo(1,ขึ้น);
 }
